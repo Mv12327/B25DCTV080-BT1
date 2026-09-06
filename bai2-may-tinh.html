@@ -96,10 +96,8 @@
   <div class="may-tinh">
     <h2>Máy tính</h2>
 
-    <!-- Màn hình hiển thị -->
     <div id="manHinh">0</div>
 
-    <!-- Các nút bấm -->
     <div class="cac-nut">
       <button class="so" data-gt="7">7</button>
       <button class="so" data-gt="8">8</button>
@@ -124,18 +122,14 @@
   </div>
 
   <script>
-    // Lấy các phần tử cần dùng
     const manHinh = document.getElementById("manHinh");
     const btnClear = document.getElementById("btnClear");
     const btnBang = document.getElementById("btnBang");
 
-    // Lấy tất cả nút số và nút toán tử (những nút có data-gt)
     const cacNut = document.querySelectorAll("button[data-gt]");
 
-    // Biến lưu biểu thức đang nhập
     let bieuThuc = "";
 
-    // ------- 1. Bấm số hoặc toán tử: nối vào màn hình -------
     for (let i = 0; i < cacNut.length; i++) {
       cacNut[i].addEventListener("click", function () {
         const giaTri = this.getAttribute("data-gt");
@@ -145,22 +139,18 @@
       });
     }
 
-    // ------- 2. Bấm Clear: đặt lại về 0 -------
     btnClear.addEventListener("click", function () {
       bieuThuc = "";
       manHinh.innerText = "0";
     });
 
-    // ------- 3. Bấm =: kiểm tra rồi tính kết quả -------
     btnBang.addEventListener("click", function () {
 
-      // Kiểm tra điều kiện đầu vào trước khi tính
       if (bieuThuc === "") {
         manHinh.innerText = "0";
         return;
       }
 
-      // Chỉ cho phép số và các toán tử + - * /
       const hopLe = /^[0-9+\-*/]+$/;
       if (hopLe.test(bieuThuc) === false) {
         manHinh.innerText = "Lỗi";
@@ -168,7 +158,6 @@
         return;
       }
 
-      // Không được kết thúc bằng toán tử (ví dụ: 5 + )
       const kyTuCuoi = bieuThuc[bieuThuc.length - 1];
       if (kyTuCuoi === "+" || kyTuCuoi === "-" || kyTuCuoi === "*" || kyTuCuoi === "/") {
         manHinh.innerText = "Lỗi";
@@ -176,18 +165,16 @@
         return;
       }
 
-      // Không cho chia cho 0
       if (bieuThuc.indexOf("/0") !== -1) {
         manHinh.innerText = "Không chia được cho 0";
         bieuThuc = "";
         return;
       }
 
-      // Tính kết quả
       const ketQua = eval(bieuThuc);
 
       manHinh.innerText = ketQua;
-      bieuThuc = "" + ketQua;   // cho phép tính tiếp từ kết quả
+      bieuThuc = "" + ketQua;
     });
   </script>
 

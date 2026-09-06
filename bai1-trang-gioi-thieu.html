@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài tập 1 - Trang giới thiệu tương tác</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+    }
+
+    header {
+      background-color: #c0392b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #34495e;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #loiChao {
+      font-size: 20px;
+      font-weight: bold;
+      color: #c0392b;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1c5980;
+    }
+
+    footer {
+      background-color: #34495e;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Mai Quốc Việt</h1>
+    <p>Sinh viên - Lập trình viên Frontend</p>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#gioiThieu">Giới thiệu</a>
+    <a href="#soThich">Sở thích</a>
+    <a href="#lienHe">Liên hệ</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <!-- Lời chào sẽ được JavaScript ghi vào đây khi trang được tải -->
+    <p id="loiChao"></p>
+
+    <button id="btnDoiMau">Đổi màu nền</button>
+
+    <h2 id="gioiThieu">Giới thiệu</h2>
+    <p>
+      Xin chào, mình là Mai Quốc Việt. Mình đang học và làm về lập trình web,
+      chủ yếu là HTML, CSS và JavaScript. Trang này là bài tập thực hành số 1
+      về thao tác DOM và xử lý sự kiện.
+    </p>
+
+    <h2 id="soThich">Sở thích</h2>
+    <ul>
+      <li>Lập trình web</li>
+      <li>Nghe nhạc</li>
+      <li>Đọc sách công nghệ</li>
+    </ul>
+
+    <h2 id="lienHe">Liên hệ</h2>
+    <p>Điện thoại: 0342 269 630</p>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 - Bài tập thực hành 1</p>
+  </footer>
+
+  <script>
+    // ------- 1. Hiển thị lời chào theo buổi khi trang được tải -------
+    const now = new Date();          // lấy thời gian hiện tại
+    const gio = now.getHours();      // lấy giờ (0 - 23)
+    let chao = "";
+
+    if (gio >= 5 && gio < 12) {
+      chao = "Chào buổi sáng!";
+    } else if (gio >= 12 && gio < 18) {
+      chao = "Chào buổi chiều!";
+    } else {
+      chao = "Chào buổi tối!";
+    }
+
+    // dùng getElementById + innerText để ghi nội dung ra trang
+    document.getElementById("loiChao").innerText =
+      chao + " Bây giờ là " + gio + " giờ. Chào mừng bạn đến với trang của mình.";
+
+    // ------- 2. Nút đổi màu nền -------
+    const mauNen = ["#ffffff", "#f9e79f", "#a9dfbf", "#aed6f1", "#f5b7b1", "#d7bde2"];
+    let viTri = 0;
+
+    const btn = document.getElementById("btnDoiMau");
+
+    btn.addEventListener("click", function () {
+      viTri = viTri + 1;
+
+      // nếu hết mảng thì quay lại màu đầu tiên
+      if (viTri >= mauNen.length) {
+        viTri = 0;
+      }
+
+      // dùng .style để đổi màu nền của trang
+      document.body.style.backgroundColor = mauNen[viTri];
+    });
+  </script>
+
+</body>
+</html>

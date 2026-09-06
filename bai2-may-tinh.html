@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài tập 2 - Máy tính đơn giản</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eceff1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .may-tinh {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 280px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+      color: #c0392b;
+    }
+
+    #manHinh {
+      background-color: #2c3e50;
+      color: white;
+      font-size: 24px;
+      text-align: right;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      min-height: 30px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .cac-nut {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      background-color: #bdc3c7;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #95a5a6;
+    }
+
+    .toan-tu {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    .toan-tu:hover {
+      background-color: #d68910;
+    }
+
+    .xoa {
+      background-color: #c0392b;
+      color: white;
+    }
+
+    .xoa:hover {
+      background-color: #922b21;
+    }
+
+    .bang {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .bang:hover {
+      background-color: #1e8449;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="may-tinh">
+    <h2>Máy tính</h2>
+
+    <!-- Màn hình hiển thị -->
+    <div id="manHinh">0</div>
+
+    <!-- Các nút bấm -->
+    <div class="cac-nut">
+      <button class="so" data-gt="7">7</button>
+      <button class="so" data-gt="8">8</button>
+      <button class="so" data-gt="9">9</button>
+      <button class="toan-tu" data-gt="/">/</button>
+
+      <button class="so" data-gt="4">4</button>
+      <button class="so" data-gt="5">5</button>
+      <button class="so" data-gt="6">6</button>
+      <button class="toan-tu" data-gt="*">*</button>
+
+      <button class="so" data-gt="1">1</button>
+      <button class="so" data-gt="2">2</button>
+      <button class="so" data-gt="3">3</button>
+      <button class="toan-tu" data-gt="-">-</button>
+
+      <button class="so" data-gt="0">0</button>
+      <button class="xoa" id="btnClear">C</button>
+      <button class="bang" id="btnBang">=</button>
+      <button class="toan-tu" data-gt="+">+</button>
+    </div>
+  </div>
+
+  <script>
+    // Lấy các phần tử cần dùng
+    const manHinh = document.getElementById("manHinh");
+    const btnClear = document.getElementById("btnClear");
+    const btnBang = document.getElementById("btnBang");
+
+    // Lấy tất cả nút số và nút toán tử (những nút có data-gt)
+    const cacNut = document.querySelectorAll("button[data-gt]");
+
+    // Biến lưu biểu thức đang nhập
+    let bieuThuc = "";
+
+    // ------- 1. Bấm số hoặc toán tử: nối vào màn hình -------
+    for (let i = 0; i < cacNut.length; i++) {
+      cacNut[i].addEventListener("click", function () {
+        const giaTri = this.getAttribute("data-gt");
+
+        bieuThuc = bieuThuc + giaTri;
+        manHinh.innerText = bieuThuc;
+      });
+    }
+
+    // ------- 2. Bấm Clear: đặt lại về 0 -------
+    btnClear.addEventListener("click", function () {
+      bieuThuc = "";
+      manHinh.innerText = "0";
+    });
+
+    // ------- 3. Bấm =: kiểm tra rồi tính kết quả -------
+    btnBang.addEventListener("click", function () {
+
+      // Kiểm tra điều kiện đầu vào trước khi tính
+      if (bieuThuc === "") {
+        manHinh.innerText = "0";
+        return;
+      }
+
+      // Chỉ cho phép số và các toán tử + - * /
+      const hopLe = /^[0-9+\-*/]+$/;
+      if (hopLe.test(bieuThuc) === false) {
+        manHinh.innerText = "Lỗi";
+        bieuThuc = "";
+        return;
+      }
+
+      // Không được kết thúc bằng toán tử (ví dụ: 5 + )
+      const kyTuCuoi = bieuThuc[bieuThuc.length - 1];
+      if (kyTuCuoi === "+" || kyTuCuoi === "-" || kyTuCuoi === "*" || kyTuCuoi === "/") {
+        manHinh.innerText = "Lỗi";
+        bieuThuc = "";
+        return;
+      }
+
+      // Không cho chia cho 0
+      if (bieuThuc.indexOf("/0") !== -1) {
+        manHinh.innerText = "Không chia được cho 0";
+        bieuThuc = "";
+        return;
+      }
+
+      // Tính kết quả
+      const ketQua = eval(bieuThuc);
+
+      manHinh.innerText = ketQua;
+      bieuThuc = "" + ketQua;   // cho phép tính tiếp từ kết quả
+    });
+  </script>
+
+</body>
+</html>
